@@ -1,0 +1,54 @@
+# Use "az group create" to create rg
+az group create `
+--name test-rg1 `
+--location southindia
+
+# Use "az network vnet create" to create 
+# virtual network named "vnet-1"
+az network vnet create `
+--name vnet-1  `
+--resource-group test-rg1 `
+--address-prefix 10.0.0.0/16 `
+--subnet-name subnet-1 `
+--subnet-prefixes 10.0.0.0/24
+
+# Run the following command to create a new NSG in Azure
+az network nsg create --resource-group test-rg1 --name nsg1
+
+# Run the following command to create an RDP rule in the NSG that allows 
+# access to port 3389 (RDP) from the Internet:
+az network nsg rule create --resource-group <resource-group-name> `
+--nsg-name <nsg-name> --name Allow-RDP --protocol Tcp --priority 100 `
+--source-address-prefix Internet --destination-port-ranges 3389 --access Allow
+
+
+# Create a storage account
+az storage account create `
+--name sa13july2023 `
+--resource-group rg13july2023 `
+--sku Standard_ZRS `
+--encryption-services blob
+
+# Create a user-assigned managed identity
+
+# To create a user-assigned managed identity, your account needs the 
+# Managed Identity Contributor role assignment.
+
+# Use the az identity create command to create a user-assigned managed identity.
+# The -g parameter specifies the resource group where to create the user-assigned
+# managed identity. The -n parameter specifies its name.
+#  Replace the <RESOURCE GROUP> and <USER ASSIGNED IDENTITY NAME>
+#   parameter values with your own values.
+az identity create -g <RESOURCE GROUP> -n <USER ASSIGNED IDENTITY NAME>
+
+# To list or read a user-assigned managed identity, your account needs the 
+# Managed Identity Operator or Managed Identity Contributor role assignment.
+
+# To list user-assigned managed identities, use the az identity list command.
+#  Replace the <RESOURCE GROUP> value with your own value.
+az identity list -g <RESOURCE GROUP>
+
+# Replace <managed-identity-id> with the unique ID (also known as the Object ID) of the managed identity 
+# to which you want to assign the role. Replace <role-name> with the name of the Azure role you want to assign.
+#  Replace <subscription-id> with the ID of the subscription.
+az role assignment create --assignee <managed-identity-id> --role <role-name> --scope /subscriptions/<subscription-id>

@@ -1,0 +1,18 @@
+az login
+
+az account set --subscription <subscription_id_or_name>
+
+az group create --name <resource_group_name> `
+--location <location>
+
+# Create an Event Grid topic: 
+# To create an Event Grid topic, use the following command:
+az eventgrid topic create --name <topic_name> `
+--resource-group <resource_group_name> --location <location>
+
+# Create an Event Grid subscription: To create an Event Grid 
+# subscription, use the following command:
+az eventgrid event-subscription create `
+--name <subscription_name> `
+--source-resource-id <topic_resource_id> `
+--endpoint <endpoint_url>
